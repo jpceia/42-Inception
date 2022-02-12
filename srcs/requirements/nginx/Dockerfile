@@ -5,7 +5,8 @@ WORKDIR /var/www/html/
 
 RUN apt-get update
 RUN apt-get upgrade -y
-RUN apt-get -y install wget		# for downloads
+# RUN apt-get -y install wget		# for downloads
+RUN apt-get -y install openssl
 
 # Install nginx
 RUN apt-get -y install nginx
@@ -24,4 +25,4 @@ COPY ./conf/nginx.conf /etc/nginx/sites-available/
 RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/
 
 CMD ["nginx", "-g", "daemon off;"]
-#CMD bash
+# CMD bash
