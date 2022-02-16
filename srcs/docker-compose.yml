@@ -18,7 +18,7 @@ services:
     image: wordpress
     hostname: wordpress
     volumes:
-      - "${VOLUMES_MOUNT_DIR}/wp_files:/var/www/html"
+      - "${WP_VOLUME_DIR}:/var/www/html/wordpress/wp-content"
     networks:
       - internal
     expose:
@@ -31,7 +31,7 @@ services:
     hostname: mariadb
     #tty: true
     #volumes:
-    #  - "${VOLUMES_MOUNT_DIR}/db_data:/var/lib/mysql"
+    #  - "${DB_VOLUME_DIR}:/var/lib/mysql"
     environment:
       - MYSQL_ROOT_PASSWORD
       - MYSQL_USER
