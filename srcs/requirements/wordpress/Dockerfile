@@ -17,18 +17,18 @@ RUN apt-get -y install \
 	php-pdo \
 	php-gd \
 	php-cli \
-	php-mbstring
+	php-mbstring \
+	mariadb-client
 
 # Install Wordpress
 RUN wget https://wordpress.org/latest.tar.gz
 RUN tar -xvzf latest.tar.gz && rm -rf latest.tar.gz
 
-COPY ./conf/wp-config.php .
-
 # Change authorization
 RUN chown -R www-data:www-data *
 RUN chmod -R 755 /var/www/*
 
-EXPOSE 9000
+COPY ./conf/wp-config.php .
+COPY ./scripts/init.sh .
 
-CMD php -S 0.0.0.0:9000 -t wordpress
+CMD bash init.sh
