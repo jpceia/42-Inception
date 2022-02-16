@@ -1,0 +1,48 @@
+version: "3.9"
+services:
+  nginx:
+    build: ./requirements/nginx
+    image: nginx
+    ports:
+      - "443:443"
+    environment:
+      - DOMAIN_NAME
+      - SSL_SERVER_CERT
+      - SSL_SERVER_KEY
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - wordpress
+  wordpress:
+    build: ./requirements/wordpress
+    image: wordpress
+    volumes:
+      - "${VOLUMES_MOUNT_DIR}/wp_files:/var/www/html"
+    networks:
+      - backend
+    expose:
+      - 9000
+    depends_on:
+      - mariadb
+  mariadb:
+    build: ./requirements/mariadb
+    image: mariadb
+    #tty: true
+    #volumes:
+    #  - "${VOLUMES_MOUNT_DIR}/db_data:/var/lib/mysql"
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+    expose:
+      - 3306
+    networks:
+      - backend
+networks:
+  frontend:
+    # driver: ''
+    external: true
+  backend:
+    # driver: ''
+
