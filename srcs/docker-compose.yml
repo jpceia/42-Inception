@@ -18,8 +18,8 @@ services:
   wordpress:
     build: ./requirements/wordpress
     environment:
-      - MYSQL_ADMIN_USER
-      - MYSQL_ADMIN_PASSWORD
+      - MYSQL_USER
+      - MYSQL_PASSWORD
     image: wordpress
     hostname: wordpress
     volumes:
@@ -30,11 +30,12 @@ services:
       - 9000
     depends_on:
       - mariadb
+    restart: on-failure
+    init: true
   mariadb:
     build: ./requirements/mariadb
     environment:
-      - MYSQL_ADMIN_USER
-      - MYSQL_ADMIN_PASSWORD
+      - MYSQL_ROOT_PASSWORD
       - MYSQL_USER
       - MYSQL_PASSWORD
     image: mariadb
