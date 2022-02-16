@@ -16,6 +16,7 @@ services:
   wordpress:
     build: ./requirements/wordpress
     image: wordpress
+    hostname: wordpress
     volumes:
       - "${VOLUMES_MOUNT_DIR}/wp_files:/var/www/html"
     networks:
@@ -27,6 +28,7 @@ services:
   mariadb:
     build: ./requirements/mariadb
     image: mariadb
+    hostname: mariadb
     #tty: true
     #volumes:
     #  - "${VOLUMES_MOUNT_DIR}/db_data:/var/lib/mysql"
