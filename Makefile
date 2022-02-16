@@ -2,25 +2,35 @@
 NAME	= inception
 DIR		= srcs
 FLAGS	= -p $(NAME) -f $(DIR)/docker-compose.yml
-# --tls
+
+WP_VOLUME_DIR = $(shell cat $(DIR)/.env | grep WP_VOLUME_DIR | cut -d "=" -f2)
+DB_VOLUME_DIR = $(shell cat $(DIR)/.env | grep DB_VOLUME_DIR | cut -d "=" -f2)
 
 all: $(NAME)
 
-$(NAME): build run
-
 build:
+	sudo mkdir -p $(WP_VOLUME_DIR)
+	sudo mkdir -p $(DB_VOLUME_DIR)
 	sudo docker-compose $(FLAGS) build
 
-run:
-	sudo docker-compose $(FLAGS) run
+run: build
+	sudo docker-compose $(FLAGS) up
 
 clean:
-	@sudo docker rm srcs_nginx_1 || echo "" > /dev/null
-	@sudo docker rm srcs_mariadb_1 || echo "" > /dev/null
-	@sudo docker rm srcs_wordpress_1 || echo "" > /dev/null
+	@sudo docker rm $(NAME)_nginx_1 || echo "" > /dev/null
+	@sudo docker rm $(NAME)_mariadb_1 || echo "" > /dev/null
+	@sudo docker rm $(NAME)_wordpress_1 || echo "" > /dev/null
+	@sudo docker network rm $(NAME)_internal
+	sudo rm -rf $(WP_VOLUME_DIR)
+	sudo rm -rf $(DB_VOLUME_DIR)
 
-# Cleans everything
+# cleans images
 fclean: clean
+	@sudo docker rmi nginx
+	@sudo docker rmi mariadb
+	@sudo docker rmi wordpress
+
+prune:
 	sudo docker system prune -a
 
 re: fclean all
