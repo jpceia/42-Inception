@@ -25,4 +25,10 @@ RUN tar -xvzf latest.tar.gz && rm -rf latest.tar.gz
 
 COPY ./conf/wp-config.php .
 
-CMD php -S 0.0.0.0:8000 -t wordpress
+# Change authorization
+RUN chown -R www-data:www-data *
+RUN chmod -R 755 /var/www/*
+
+EXPOSE 9000
+
+CMD php -S 0.0.0.0:9000 -t wordpress
