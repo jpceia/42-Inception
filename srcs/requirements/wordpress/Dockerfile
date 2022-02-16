@@ -1,9 +1,6 @@
 FROM debian:buster
 
-EXPOSE 4444
-
 ARG DEBIAN_FRONTEND=noninteractive
-WORKDIR /var/www/html/
 
 RUN apt-get update
 RUN apt-get upgrade -y
@@ -19,6 +16,8 @@ RUN apt-get -y install \
 	php-cli \
 	php-mbstring \
 	mariadb-client
+
+WORKDIR /var/www/html/
 
 # Install Wordpress
 RUN wget https://wordpress.org/latest.tar.gz
