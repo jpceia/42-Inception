@@ -10,8 +10,7 @@ services:
       - SSL_SERVER_CERT
       - SSL_SERVER_KEY
     networks:
-      - frontend
-      - backend
+      - internal
     depends_on:
       - wordpress
   wordpress:
@@ -20,7 +19,7 @@ services:
     volumes:
       - "${VOLUMES_MOUNT_DIR}/wp_files:/var/www/html"
     networks:
-      - backend
+      - internal
     expose:
       - 9000
     depends_on:
@@ -38,11 +37,8 @@ services:
     expose:
       - 3306
     networks:
-      - backend
+      - internal
 networks:
-  frontend:
-    # driver: ''
-    external: true
-  backend:
+  internal:
     # driver: ''
 
