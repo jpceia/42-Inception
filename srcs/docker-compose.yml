@@ -15,6 +15,9 @@ services:
       - wordpress
   wordpress:
     build: ./requirements/wordpress
+    environment:
+      - MYSQL_ADMIN_USER
+      - MYSQL_ADMIN_PASSWORD
     image: wordpress
     hostname: wordpress
     volumes:
@@ -27,15 +30,16 @@ services:
       - mariadb
   mariadb:
     build: ./requirements/mariadb
+    environment:
+      - MYSQL_ADMIN_USER
+      - MYSQL_ADMIN_PASSWORD
+      - MYSQL_USER
+      - MYSQL_PASSWORD
     image: mariadb
     hostname: mariadb
     #tty: true
     #volumes:
     #  - "${DB_VOLUME_DIR}:/var/lib/mysql"
-    environment:
-      - MYSQL_ROOT_PASSWORD
-      - MYSQL_USER
-      - MYSQL_PASSWORD
     expose:
       - 3306
     networks:
