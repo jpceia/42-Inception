@@ -24,5 +24,6 @@ RUN rm -f /etc/nginx/sites-enabled/default
 COPY ./conf/nginx.conf /etc/nginx/sites-available/
 RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/
 
-CMD ["nginx", "-g", "daemon off;"]
-# CMD bash
+COPY ./scripts/init.sh .
+
+CMD bash init.sh
