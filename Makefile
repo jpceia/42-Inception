@@ -3,8 +3,9 @@ NAME	= inception
 DIR		= srcs
 FLAGS	= -p $(NAME) -f $(DIR)/docker-compose.yml
 
-WP_VOLUME_DIR = $(shell cat $(DIR)/.env | grep WP_VOLUME_DIR | cut -d "=" -f2)
-DB_VOLUME_DIR = $(shell cat $(DIR)/.env | grep DB_VOLUME_DIR | cut -d "=" -f2)
+WP_VOLUME_DIR	= $(shell cat $(DIR)/.env | grep WP_VOLUME_DIR | cut -d "=" -f2)
+DB_VOLUME_DIR	= $(shell cat $(DIR)/.env | grep DB_VOLUME_DIR | cut -d "=" -f2)
+DOMAIN_NAME		= $(shell cat $(DIR)/.env | grep DOMAIN_NAME | cut -d "=" -f2)
 
 all: $(NAME)
 
