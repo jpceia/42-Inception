@@ -4,6 +4,7 @@ services:
     build: ./requirements/nginx
     image: nginx
     ports:
+      - "80:80"
       - "443:443"
     environment:
       - DOMAIN_NAME
@@ -23,7 +24,7 @@ services:
     image: wordpress
     hostname: wordpress
     volumes:
-      - "${WP_VOLUME_DIR}:/var/www/html/wordpress/wp-content"
+      - wp-volume:/var/www/html/wordpress
     networks:
       - internal
     expose:
@@ -40,9 +41,8 @@ services:
       - MYSQL_PASSWORD
     image: mariadb
     hostname: mariadb
-    #tty: true
-    #volumes:
-    #  - "${DB_VOLUME_DIR}:/var/lib/mysql"
+    volumes:
+      - db-volume:/var/lib/mysql
     expose:
       - 3306
     networks:
@@ -51,5 +51,17 @@ services:
     init: true
 networks:
   internal:
-    # driver: ''
+volumes:
+  wp-volume: # github.com/moby/issues/19990
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "${WP_VOLUME_DIR}"
+  db-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "${DB_VOLUME_DIR}"
 
