@@ -33,7 +33,5 @@ fclean: clean
 	@sudo docker rmi mariadb
 	@sudo docker rmi wordpress
 
-prune:
-	sudo docker system prune -a
-
-re: fclean all
+host:
+	sudo echo "127.0.0.1 ${DOMAIN_NAME}" >> /etc/hosts
