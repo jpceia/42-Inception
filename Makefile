@@ -20,18 +20,17 @@ run: build
 	sudo docker-compose $(FLAGS) up
 
 clean:
-	@sudo docker rm $(NAME)_nginx_1 || echo "" > /dev/null
-	@sudo docker rm $(NAME)_mariadb_1 || echo "" > /dev/null
-	@sudo docker rm $(NAME)_wordpress_1 || echo "" > /dev/null
-	@sudo docker network rm $(NAME)_internal
+	sudo docker rm -f $(sudo docker ps -a -q) 2> /dev/null || echo -n ""
+	sudo docker volume rm $(sudo docker volume ls -q) 2> /dev/null || echo -n ""
 	sudo rm -rf $(WP_VOLUME_DIR)
 	sudo rm -rf $(DB_VOLUME_DIR)
 
 # cleans images
 fclean: clean
-	@sudo docker rmi nginx
-	@sudo docker rmi mariadb
-	@sudo docker rmi wordpress
+	sudo docker rmi $(sudo docker images -a -q) || echo -n ""
+	sudo docker system prune --all --force --volumes
+
+re: fclean all
 
 host:
-	sudo echo "127.0.0.1 ${DOMAIN_NAME}" >> /etc/hosts
+	sudo echo "127.0.0.1 ${DOMAIN_NAME}" >> /etc/hosts 
