@@ -9,6 +9,8 @@ DOMAIN_NAME		= $(shell cat $(DIR)/.env | grep DOMAIN_NAME | cut -d "=" -f2)
 
 all: $(NAME)
 
+$(NAME): run
+
 build:
 	sudo mkdir -p $(WP_VOLUME_DIR)
 	sudo mkdir -p $(DB_VOLUME_DIR)
