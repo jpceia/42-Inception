@@ -4,7 +4,7 @@ service mysql start
 #rm -f query.sql
 #service mysql stop
 # mysqld_safe
-if [[ $(mysql -u root --skip-password -e "SELECT * FROM information_schema.tables WHERE table_schema='wordpress' LIMIT 1") ]]
+if [ -d "/var/lib/mysql/mysql" ];
 then
     echo "Wordpress database already exists"
 else
