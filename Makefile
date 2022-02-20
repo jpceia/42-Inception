@@ -12,23 +12,34 @@ all: $(NAME)
 $(NAME): run
 
 build:
-	sudo mkdir -p $(WP_VOLUME_DIR)
-	sudo mkdir -p $(DB_VOLUME_DIR)
-	sudo docker-compose $(FLAGS) build
+	mkdir -p $(WP_VOLUME_DIR)
+	mkdir -p $(DB_VOLUME_DIR)
+	docker-compose $(FLAGS) build
 
 run: build
-	sudo docker-compose $(FLAGS) up
+	docker-compose $(FLAGS) up --detach
 
-clean:
-	sudo docker rm -f $(sudo docker ps -a -q) 2> /dev/null || echo -n ""
-	sudo docker volume rm $(sudo docker volume ls -q) 2> /dev/null || echo -n ""
+stop:
+	docker-compose $(FLAGS) stop
+
+logs:
+	docker-compose $(FLAGS) logs --timestamps
+
+clean: stop
+	@echo "Deleting containers..."
+	@docker rm -f $(shell docker ps -aq --filter name=$(NAME)) 2>/dev/null || echo -n ""
+	@echo "Deleting networks..."
+	@docker network rm $(shell docker network ls -q --filter name=$(NAME)) 2>/dev/null || echo -n ""
+	@echo "Deleting volumes..."
+	@docker volume rm $(shell docker volume ls -q --filter name=$(NAME)) 2>/dev/null || echo -n ""
 	sudo rm -rf $(WP_VOLUME_DIR)
 	sudo rm -rf $(DB_VOLUME_DIR)
 
 # cleans images
 fclean: clean
-	sudo docker rmi $(sudo docker images -a -q) || echo -n ""
-	sudo docker system prune --all --force --volumes
+	@echo "Deleting images..."
+	docker rmi $(shell sudo docker images -aq --filter name=$(NAME)) 2>/dev/null || echo -n ""
+	#docker system prune --all --force --volumes
 
 re: fclean all
 
