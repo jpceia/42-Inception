@@ -4,7 +4,7 @@ service mysql start
 #rm -f query.sql
 #service mysql stop
 # mysqld_safe
-if [ -d "/var/lib/mysql/mysql" ];
+if [ -d "/var/lib/mysql/wordpress" ];
 then
     echo "Wordpress database already exists"
 else
