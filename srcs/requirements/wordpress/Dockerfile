@@ -15,7 +15,8 @@ RUN apt-get -y install \
 	php-gd \
 	php-cli \
 	php-mbstring \
-	mariadb-client
+	mariadb-client \
+	redis-tools
 
 WORKDIR /var/www/html/
 

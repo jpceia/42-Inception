@@ -30,6 +30,7 @@ services:
       - 9000
     depends_on:
       - mariadb
+      - redis
     restart: on-failure
     init: true
   mariadb:
@@ -44,6 +45,16 @@ services:
       - db-volume:/var/lib/mysql
     expose:
       - 3306
+    networks:
+      - internal
+    restart: on-failure
+    init: true
+  redis:
+    build: ./requirements/bonus/redis
+    image: redis
+    hostname: redis
+    expose:
+      - 6379
     networks:
       - internal
     restart: on-failure
@@ -63,4 +74,3 @@ volumes:
       type: none
       o: bind
       device: "${DB_VOLUME_DIR}"
-
