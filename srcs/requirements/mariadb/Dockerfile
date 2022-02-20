@@ -13,7 +13,6 @@ RUN sed -i "s/^#port/port/" /etc/mysql/mariadb.conf.d/50-server.cnf
 RUN sed -i "s/^#general_log/general_log/g" /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # init script and launch bash
-COPY ./scripts/query.sql .
-COPY ./scripts/init.sh .
+COPY ./scripts/* ./
 
 CMD bash init.sh
