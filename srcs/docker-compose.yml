@@ -68,6 +68,22 @@ services:
       - internal
     restart: on-failure
     init: true
+  ftp-server:
+    build: ./requirements/bonus/ftp-server
+    image: ftp-server
+    hostname: ftp-server
+    ports:
+      - "20:20"
+      - "21:21"
+    environment:
+      - FTP_USER
+      - FTP_PASSWORD
+    volumes:
+      - "wp-volume:/home/${FTP_USER}"
+    networks:
+      - internal
+    restart: on-failure
+    init: true
 networks:
   internal:
 volumes:
