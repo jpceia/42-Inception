@@ -39,9 +39,9 @@ clean: stop
 fclean: clean
 	@echo "Deleting images..."
 	docker rmi $(shell sudo docker images -aq --filter name=$(NAME)) 2>/dev/null || echo -n ""
-	#docker system prune --all --force --volumes
+	# docker system prune --all --force --volumes
 
 re: fclean all
 
-host:
-	sudo echo "127.0.0.1 ${DOMAIN_NAME}" >> /etc/hosts 
+setup:
+	sudo bash tools/setup.sh ${DOMAIN_NAME}
