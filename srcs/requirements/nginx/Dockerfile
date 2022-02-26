@@ -1,6 +1,7 @@
 FROM debian:buster
 
 ARG DEBIAN_FRONTEND=noninteractive
+ARG DOMAIN_NAME
 
 RUN apt-get update && \
     apt-get upgrade -y && \
@@ -18,9 +19,8 @@ RUN openssl req -x509 -nodes -days 365 -subj "/C=PT/ST=Portugal/L=Lisbon/O=42Sch
 RUN rm -f /etc/nginx/sites-enabled/default
 
 # Copying config file
-COPY ./conf/nginx.conf /etc/nginx/sites-available/
-RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/
+COPY ./conf/ /etc/nginx/sites-available/
+RUN sed -i "s/\$DOMAIN_NAME/${DOMAIN_NAME}/g" /etc/nginx/sites-available/*
+RUN ln -s /etc/nginx/sites-available/wordpress.conf /etc/nginx/sites-enabled/
 
-COPY ./scripts/init.sh .
-
-CMD bash init.sh
+CMD ["nginx" , "-g", "daemon off;"]

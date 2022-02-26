@@ -1,12 +1,14 @@
 version: "3.9"
 services:
   nginx:
-    build: ./requirements/nginx
+    build:
+      context: ./requirements/nginx
+      args:
+        - DOMAIN_NAME
     image: nginx
     ports:
       - "443:443"
     environment:
-      - DOMAIN_NAME
       - SSL_SERVER_CERT
       - SSL_SERVER_KEY
     networks:
