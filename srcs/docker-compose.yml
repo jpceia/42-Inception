@@ -49,16 +49,6 @@ services:
       - internal
     restart: on-failure
     init: true
-  redis:
-    build: ./requirements/bonus/redis
-    image: redis
-    hostname: redis
-    expose:
-      - 6379
-    networks:
-      - internal
-    restart: on-failure
-    init: true
 networks:
   internal:
 volumes:

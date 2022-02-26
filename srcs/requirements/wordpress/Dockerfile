@@ -4,10 +4,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
 RUN apt-get upgrade -y
-RUN apt-get -y install wget		# for downloads
-
-# Install PHP My Admin
 RUN apt-get -y install \
+	wget \
 	php7.3 \
 	php-mysql \
 	php-fpm \
@@ -15,8 +13,7 @@ RUN apt-get -y install \
 	php-gd \
 	php-cli \
 	php-mbstring \
-	mariadb-client \
-	redis-tools
+	mariadb-client
 
 WORKDIR /var/www/html/
 
