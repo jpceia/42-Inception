@@ -14,5 +14,8 @@ RUN sed -i "s/^#general_log/general_log/g" /etc/mysql/mariadb.conf.d/50-server.c
 
 # init script and launch bash
 COPY ./scripts/* ./
+RUN mkdir -p /var/run/mysqld/
+RUN chown mysql:mysql /var/run/mysqld/
 
-CMD bash init.sh
+ENTRYPOINT [ "bash", "init.sh" ]
+CMD [ "mysqld_safe" ]
