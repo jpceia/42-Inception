@@ -6,7 +6,8 @@ WORKDIR /root
 RUN apt-get update && \
     apt-get -y install \
     gettext-base \
-    mariadb-server
+    mariadb-server && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN sed -i "s/^bind-address/#bind-address/" /etc/mysql/mariadb.conf.d/50-server.cnf
 RUN sed -i "s/^#port/port/" /etc/mysql/mariadb.conf.d/50-server.cnf
