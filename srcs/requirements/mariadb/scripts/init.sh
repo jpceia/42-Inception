@@ -31,4 +31,8 @@ else
     service mysql stop
 fi
 
+unset MYSQL_USER
+unset MYSQL_PASSWORD
+unset MYSQL_ROOT_PASSWORD
+
 exec "$@"

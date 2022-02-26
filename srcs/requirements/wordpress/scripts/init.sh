@@ -35,4 +35,10 @@ then
     echo "Installation complete"
 fi
 
+unset DOMAIN_NAME
+unset WP_PAGE_TITLE
+unset WP_ADMIN_USER
+unset WP_ADMIN_PASSWORD
+unset WP_ADMIN_EMAIL
+
 wp server --host=wordpress --port=9000
