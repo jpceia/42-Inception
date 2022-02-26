@@ -1,11 +1,20 @@
-echo "Waiting for DB server to be available..."
+echo "Waiting for Redis server to be available..."
+
+while !(ping redis -c 1)
+do
+    sleep 1
+done
+
+echo "...Redis server is available now"
+
+echo "Waiting for MariaDB server to be available..."
 
 while !(ping mariadb -c 1)
 do
     sleep 1
 done
 
-echo "...Server is available now"
+echo "...MariaDB server is available now"
 
 sleep 5
 
@@ -19,6 +28,10 @@ then
         --admin_password=$WP_ADMIN_PASSWORD \
         --admin_email=$WP_ADMIN_EMAIL \
         --color
+    echo "Installing and activating redis-cache plugin"
+    wp plugin install redis-cache
+    wp plugin activate redis-cache
+    echo "Installation complete"
 fi
 
 wp server --host=wordpress --port=9000

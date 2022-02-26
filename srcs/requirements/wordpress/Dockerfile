@@ -20,7 +20,9 @@ RUN apt-get update && \
 		php-gd \
 		php-cli \
 		php-mbstring \
-		mariadb-client && \
+		mariadb-client \
+		php-redis \
+		redis-tools && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /var/www/html/
@@ -34,6 +36,7 @@ RUN mv wp-cli.phar /usr/local/bin/wp
 USER www-data
 RUN wp core download
 COPY ./conf/wp-extra-config.php .
+COPY ./conf/object-cache.php ./wp-content/
 RUN wp config create \
 	--dbname=$DB_NAME \
 	--dbhost=$DB_HOST --skip-check \
