@@ -5,7 +5,8 @@ ARG DOMAIN_NAME
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get -y install openssl nginx
+    apt-get -y install openssl nginx && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root
 

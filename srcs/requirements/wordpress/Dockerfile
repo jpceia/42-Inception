@@ -20,7 +20,8 @@ RUN apt-get update && \
 		php-gd \
 		php-cli \
 		php-mbstring \
-		mariadb-client
+		mariadb-client && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /var/www/html/
 RUN chown -R www-data:www-data /var/www
