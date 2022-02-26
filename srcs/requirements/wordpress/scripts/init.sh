@@ -31,6 +31,7 @@ then
     echo "Installing and activating redis-cache plugin"
     wp plugin install redis-cache
     wp plugin activate redis-cache
+    wp redis enable
     echo "Installation complete"
 fi
 
