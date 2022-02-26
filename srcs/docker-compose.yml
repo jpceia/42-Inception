@@ -30,7 +30,6 @@ services:
       - 9000
     depends_on:
       - mariadb
-      - redis
     restart: on-failure
     init: true
   mariadb:
