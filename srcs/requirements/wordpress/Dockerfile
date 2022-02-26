@@ -2,30 +2,43 @@ FROM debian:buster
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update
-RUN apt-get upgrade -y
-RUN apt-get -y install \
-	wget \
-	php7.3 \
-	php-mysql \
-	php-fpm \
-	php-pdo \
-	php-gd \
-	php-cli \
-	php-mbstring \
-	mariadb-client
+# Database parameters
+ARG DB_HOST=mariadb
+ARG DB_NAME=wordpress
+ARG MYSQL_USER
+ARG MYSQL_PASSWORD
+
+RUN apt-get update && \
+	apt-get upgrade -y && \
+	apt-get -y install \
+		wget \
+		php7.3 \
+		php-mysql \
+		php-fpm \
+		php-pdo \
+		php-gd \
+		php-cli \
+		php-mbstring \
+		mariadb-client
 
 WORKDIR /var/www/html/
+RUN chown -R www-data:www-data /var/www
 
-# Install Wordpress
-RUN wget https://wordpress.org/latest.tar.gz
-RUN tar -xvzf latest.tar.gz && rm -rf latest.tar.gz
+# WP-CLI
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN chmod +x wp-cli.phar
+RUN mv wp-cli.phar /usr/local/bin/wp
 
-# Change authorization
-RUN chown -R www-data:www-data *
-RUN chmod -R 755 /var/www/*
+USER www-data
+RUN wp core download
+COPY ./conf/wp-custom-config.php .
+RUN wp config create \
+	--dbname=$DB_NAME \
+	--dbhost=$DB_HOST --skip-check \
+	--dbuser=$MYSQL_USER \
+	--dbpass=$MYSQL_PASSWORD \
+	--extra-php < wp-custom-config.php
 
-COPY ./conf/wp-config.php .
 COPY ./scripts/init.sh .
 
 CMD bash init.sh

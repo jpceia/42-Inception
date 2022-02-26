@@ -16,14 +16,21 @@ services:
     restart: on-failure
     init: true
   wordpress:
-    build: ./requirements/wordpress
+    build:
+      context: ./requirements/wordpress
+      args:
+        - MYSQL_USER
+        - MYSQL_PASSWORD
     environment:
-      - MYSQL_USER
-      - MYSQL_PASSWORD
+      - DOMAIN_NAME
+      - WP_PAGE_NAME
+      - WP_ADMIN_USER
+      - WP_ADMIN_PASSWORD
+      - WP_ADMIN_EMAIL
     image: wordpress
     hostname: wordpress
     volumes:
-      - wp-volume:/var/www/html/wordpress
+      - wp-volume:/var/www/html
     networks:
       - internal
     expose:
