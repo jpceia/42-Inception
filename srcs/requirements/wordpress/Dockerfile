@@ -12,6 +12,7 @@ RUN apt-get update && \
 	apt-get upgrade -y && \
 	apt-get -y install \
 		wget \
+		sendmail \
 		php7.3 \
 		php-mysql \
 		php-fpm \
@@ -31,13 +32,13 @@ RUN mv wp-cli.phar /usr/local/bin/wp
 
 USER www-data
 RUN wp core download
-COPY ./conf/wp-custom-config.php .
+COPY ./conf/wp-extra-config.php .
 RUN wp config create \
 	--dbname=$DB_NAME \
 	--dbhost=$DB_HOST --skip-check \
 	--dbuser=$MYSQL_USER \
 	--dbpass=$MYSQL_PASSWORD \
-	--extra-php < wp-custom-config.php
+	--extra-php < wp-extra-config.php
 
 COPY ./scripts/init.sh .
 
