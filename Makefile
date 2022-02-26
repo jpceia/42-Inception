@@ -38,8 +38,7 @@ clean: stop
 # cleans images
 fclean: clean
 	@echo "Deleting images..."
-	docker rmi $(shell sudo docker images -aq --filter name=$(NAME)) 2>/dev/null || echo -n ""
-	# docker system prune --all --force --volumes
+	docker rmi $(shell sudo docker images -aq) 2>/dev/null || echo -n ""
 
 re: fclean all
 
