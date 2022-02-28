@@ -84,6 +84,18 @@ services:
       - internal
     restart: on-failure
     init: true
+  adminer:
+    build: ./requirements/bonus/adminer
+    image: adminer
+    hostname: adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - internal
+    depends_on:
+      - mariadb
+    restart: on-failure
+    init: true
 networks:
   internal:
 volumes:
