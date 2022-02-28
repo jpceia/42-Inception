@@ -30,4 +30,5 @@ RUN wp core download
 COPY ./conf/wp-extra-config.php .
 COPY ./scripts/init.sh .
 
-CMD bash init.sh
+ENTRYPOINT [ "bash", "init.sh" ]
+CMD [ "wp", "server", "--host=wordpress", "--port=9000"]

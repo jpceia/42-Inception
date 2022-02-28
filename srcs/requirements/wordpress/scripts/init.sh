@@ -42,4 +42,4 @@ unset WP_ADMIN_USER
 unset WP_ADMIN_PASSWORD
 unset WP_ADMIN_EMAIL
 
-wp server --host=wordpress --port=9000
+exec "$@"
