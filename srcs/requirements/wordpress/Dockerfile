@@ -30,17 +30,6 @@ RUN mv wp-cli.phar /usr/local/bin/wp
 USER www-data
 RUN wp core download
 COPY ./conf/wp-extra-config.php .
-<<<<<<< HEAD
-
-RUN wp config create \
-	--dbname=$DB_NAME \
-	--dbhost=$DB_HOST --skip-check \
-	--dbuser=$MYSQL_USER \
-	--dbpass=$MYSQL_PASSWORD \
-	--extra-php < wp-extra-config.php
-
-=======
->>>>>>> mandatory
 COPY ./scripts/init.sh .
 
 ENTRYPOINT [ "bash", "init.sh" ]
