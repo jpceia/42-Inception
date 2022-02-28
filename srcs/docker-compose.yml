@@ -68,10 +68,10 @@ services:
       - internal
     restart: on-failure
     init: true
-  ftp-server:
-    build: ./requirements/bonus/ftp-server
-    image: ftp-server
-    hostname: ftp-server
+  ftp:
+    build: ./requirements/bonus/ftp
+    image: ftp
+    hostname: ftp
     ports:
       - "20:20"
       - "21:21"
