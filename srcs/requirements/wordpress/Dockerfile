@@ -2,12 +2,6 @@ FROM debian:buster
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-# Database parameters
-ARG DB_HOST=mariadb
-ARG DB_NAME=wordpress
-ARG MYSQL_USER
-ARG MYSQL_PASSWORD
-
 RUN apt-get update && \
 	apt-get upgrade -y && \
 	apt-get -y install \
@@ -34,13 +28,6 @@ RUN mv wp-cli.phar /usr/local/bin/wp
 USER www-data
 RUN wp core download
 COPY ./conf/wp-extra-config.php .
-RUN wp config create \
-	--dbname=$DB_NAME \
-	--dbhost=$DB_HOST --skip-check \
-	--dbuser=$MYSQL_USER \
-	--dbpass=$MYSQL_PASSWORD \
-	--extra-php < wp-extra-config.php
-
 COPY ./scripts/init.sh .
 
 CMD bash init.sh

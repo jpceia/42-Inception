@@ -1,17 +1,26 @@
-echo "Waiting for DB server to be available..."
+echo "Waiting for MariaDB server to be available..."
 
-while !(ping mariadb -c 1)
+while !(mysql -h"${DB_HOST}" -D"${DB_NAME}" -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -e';')
 do
     sleep 1
 done
 
-echo "...Server is available now"
+echo "...MariaDB server is available now"
 
-sleep 5
-
-if !(wp core is-installed)
+if [[ ! -f wp-config.php ]]
 then
-    echo "Installing wordpress"
+    echo "Setting up wordpress config file..."
+    wp config create \
+        --dbname=$DB_NAME \
+        --dbhost=$DB_HOST \
+        --dbuser=$MYSQL_USER \
+        --dbpass=$MYSQL_PASSWORD \
+        --extra-php < wp-extra-config.php
+fi
+
+if !( wp core is-installed )
+then
+    echo "Installing wordpress..."
     wp core install \
         --url=$DOMAIN_NAME \
         --title=$WP_PAGE_TITLE \
@@ -20,5 +29,17 @@ then
         --admin_email=$WP_ADMIN_EMAIL \
         --color
 fi
+
+echo "Setup complete :)"
+
+unset DOMAIN_NAME
+unset DB_HOST
+unset DB_NAME
+unset MYSQL_USER
+unset MYSQL_PASSWORD
+unset WP_PAGE_TITLE
+unset WP_ADMIN_USER
+unset WP_ADMIN_PASSWORD
+unset WP_ADMIN_EMAIL
 
 wp server --host=wordpress --port=9000

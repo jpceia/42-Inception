@@ -18,13 +18,13 @@ services:
     restart: on-failure
     init: true
   wordpress:
-    build:
-      context: ./requirements/wordpress
-      args:
-        - MYSQL_USER
-        - MYSQL_PASSWORD
+    build: ./requirements/wordpress
     environment:
       - DOMAIN_NAME
+      - DB_HOST=mariadb
+      - DB_NAME=wordpress 
+      - MYSQL_USER
+      - MYSQL_PASSWORD
       - WP_PAGE_NAME
       - WP_ADMIN_USER
       - WP_ADMIN_PASSWORD
