@@ -30,7 +30,6 @@ services:
       - WP_ADMIN_PASSWORD
       - WP_ADMIN_EMAIL
     image: wordpress
-    hostname: wordpress
     volumes:
       - wp-volume:/var/www/html
     networks:
@@ -71,7 +70,6 @@ services:
   ftp:
     build: ./requirements/bonus/ftp
     image: ftp
-    hostname: ftp
     ports:
       - "20:20"
       - "21:21"
@@ -87,7 +85,6 @@ services:
   adminer:
     build: ./requirements/bonus/adminer
     image: adminer
-    hostname: adminer
     ports:
       - "8080:8080"
     networks:
@@ -101,6 +98,8 @@ services:
     image: react
     ports:
       - "3000:3000"
+    volumes:
+      - react-volume:/root/app
     networks:
       - internal
     restart: on-failure
@@ -120,3 +119,9 @@ volumes:
       type: none
       o: bind
       device: "${DB_VOLUME_DIR}"
+  react-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "${REACT_VOLUME_DIR}"
