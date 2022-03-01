@@ -12,7 +12,7 @@ $(NAME): run
 
 build:
 	mkdir -p $(VOLUME_DIRS)
-	chown -R $(USER) $(VOLUME_DIRS)
+	sudo chown -R $(USER) $(VOLUME_DIRS)
 	sudo docker-compose $(FLAGS) build
 
 run: build
