@@ -30,6 +30,7 @@ services:
       - WP_ADMIN_PASSWORD
       - WP_ADMIN_EMAIL
     image: wordpress
+    hostname: wordpress
     volumes:
       - wp-volume:/var/www/html
     networks:
@@ -70,6 +71,7 @@ services:
   ftp:
     build: ./requirements/bonus/ftp
     image: ftp
+    hostname: ftp
     ports:
       - "20:20"
       - "21:21"
@@ -85,6 +87,7 @@ services:
   adminer:
     build: ./requirements/bonus/adminer
     image: adminer
+    hostname: adminer
     ports:
       - "8080:8080"
     networks:
@@ -102,6 +105,17 @@ services:
       - react-volume:/root/app
     networks:
       - internal
+    restart: on-failure
+    init: true
+  redis-commander:
+    build: ./requirements/bonus/redis-commander
+    image: redis-commander
+    ports:
+      - "8081:8081"
+    networks:
+      - internal
+    depends_on:
+      - redis
     restart: on-failure
     init: true
 networks:
