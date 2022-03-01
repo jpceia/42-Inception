@@ -16,7 +16,7 @@ build:
 	sudo docker-compose $(FLAGS) build
 
 run: build
-	sudo docker-compose $(FLAGS) up --detach
+	sudo COMPOSE_HTTP_TIMEOUT=120 docker-compose $(FLAGS) up --detach
 
 stop:
 	sudo docker-compose $(FLAGS) stop
