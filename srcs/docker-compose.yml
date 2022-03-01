@@ -96,6 +96,15 @@ services:
       - mariadb
     restart: on-failure
     init: true
+  react:
+    build: ./requirements/bonus/react
+    image: react
+    ports:
+      - "3000:3000"
+    networks:
+      - internal
+    restart: on-failure
+    init: true
 networks:
   internal:
 volumes:
