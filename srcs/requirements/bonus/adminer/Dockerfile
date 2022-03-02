@@ -2,9 +2,9 @@ FROM debian:buster
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt update && \
-    apt upgrade -y && \
-    apt -y install \
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get -y install \
         wget \
         apache2 \
         php \
