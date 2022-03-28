@@ -3,7 +3,7 @@
 # DOCKER ENGINE
 
 ## Uninstall old versions
-sudo apt-get remove docker docker-engine docker.io containerd runc > /dev/null
+sudo apt-get remove docker docker.io containerd runc > /dev/null
 
 if command -v docker > /dev/null
 then
