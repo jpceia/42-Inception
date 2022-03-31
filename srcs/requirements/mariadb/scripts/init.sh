@@ -12,6 +12,7 @@ else
     # Create Admin USER
     mysql -e "CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';" # try with wordpress host
     mysql -e "GRANT ALL PRIVILEGES ON wordpress.* TO '$MYSQL_USER'@'%' WITH GRANT OPTION;"
+    mysql -e "GRANT ALL PRIVILEGES ON * TO 'root'@'%' WITH GRANT OPTION;"
 
     # https://stackoverflow.com/questions/24270733/automate-mysql-secure-installation-with-echo-command-via-a-shell-script
     # Make sure that NOBODY can access the server without a password
@@ -21,7 +22,7 @@ else
     mysql -e "UPDATE mysql.user SET plugin='' WHERE user='root';"
     mysql -e "DROP DATABASE IF EXISTS test;"
     mysql -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';"
-    
+
     # Make our changes take effect
     mysql -e "FLUSH PRIVILEGES"
 
